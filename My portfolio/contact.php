@@ -12,27 +12,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = "";
         $dbname = "contact";
 
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+         $conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
+          if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)");
+          $stmt = $conn->prepare("INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $name, $email, $subject, $message);
 
-        // Execute the statement
-        if ($stmt->execute()) {
+          if ($stmt->execute()) {
             echo "<h1>Thank You, $name!</h1>";
             echo "<p>Your message has been sent and stored in our database.</p>";
         } else {
             echo "<p>There was an error submitting your message. Please try again.</p>";
         }
 
-        // Close connections
         $stmt->close();
         $conn->close();
     } else {
